@@ -13,11 +13,18 @@ class CorsConfig {
     fun corsFilter(): CorsFilter {
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.addAllowedOriginPattern("*") // Permite todas as origens em desenvolvimento
-        config.addAllowedHeader("*")
-        config.addAllowedMethod("*")
-        config.exposedHeaders = listOf("Access-Control-Allow-Origin")
-        config.maxAge = 3600L // Cache das configurações CORS por 1 hora
+        config.addAllowedOrigin("http://localhost:3000")
+        config.addAllowedHeader("Authorization")
+        config.addAllowedHeader("Content-Type")
+        config.addAllowedHeader("Accept")
+        config.addAllowedHeader("Origin")
+        config.addAllowedHeader("X-Requested-With")
+        config.addAllowedMethod("GET")
+        config.addAllowedMethod("POST")
+        config.addAllowedMethod("PUT")
+        config.addAllowedMethod("DELETE")
+        config.addAllowedMethod("OPTIONS")
+        config.maxAge = 3600L
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", config)
