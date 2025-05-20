@@ -13,9 +13,11 @@ class CorsConfig {
     fun corsFilter(): CorsFilter {
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.addAllowedOrigin("http://localhost:3000") // URL do seu frontend
+        config.addAllowedOriginPattern("*") // Permite todas as origens em desenvolvimento
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")
+        config.exposedHeaders = listOf("Access-Control-Allow-Origin")
+        config.maxAge = 3600L // Cache das configurações CORS por 1 hora
 
         val source = UrlBasedCorsConfigurationSource()
         source.registerCorsConfiguration("/**", config)
