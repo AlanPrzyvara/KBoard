@@ -8,6 +8,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.web.cors.CorsConfiguration
 import org.springframework.web.cors.CorsConfigurationSource
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.security.config.http.SessionCreationPolicy
 
 @Configuration
 @EnableWebSecurity
@@ -21,6 +22,10 @@ class SecurityConfig {
             .authorizeHttpRequests { auth ->
                 auth.anyRequest().permitAll()
             }
+            .httpBasic { it.disable() }
+            .formLogin { it.disable() }
+            .headers { it.frameOptions { it.disable() } }
+            .sessionManagement { it.sessionCreationPolicy(SessionCreationPolicy.STATELESS) }
         return http.build()
     }
 
