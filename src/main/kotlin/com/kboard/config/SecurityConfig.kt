@@ -5,9 +5,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
-import org.springframework.web.cors.CorsConfiguration
-import org.springframework.web.cors.CorsConfigurationSource
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher
 
 @Configuration
 @EnableWebSecurity
@@ -18,25 +16,23 @@ class SecurityConfig {
         http
             .csrf { it.disable() }
             .cors { cors ->
-                cors.configurationSource(corsConfigurationSource())
+                cors.configurationSource { request ->
+                    val config = org.springframework.web.cors.CorsConfiguration()
+                    config.addAllowedOrigin("http://localhost:3000")
+                    config.addAllowedMethod("*")
+                    config.addAllowedHeader("*")
+                    config.allowCredentials = true
+                    config
+                }
             }
             .authorizeHttpRequests { auth ->
-                auth.anyRequest().permitAll()
+                auth
+                    .requestMatchers(AntPathRequestMatcher("/**")).permitAll()
+            }
+            .headers { headers ->
+                headers.frameOptions { it.disable() }
             }
 
         return http.build()
-    }
-
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.addAllowedOrigin("http://localhost:3000")
-        configuration.addAllowedMethod("*")
-        configuration.addAllowedHeader("*")
-        configuration.allowCredentials = true
-        
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
     }
 } 
