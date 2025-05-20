@@ -9,22 +9,24 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.api</groupId>
-	<artifactId>Kbank</artifactId>
+	<artifactId>KBoard</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Kbank</name>
-	<description>Projeto de api usando MongoDB</description>
-	<url/>
+	<name>KBoard</name>
+	<description>Projeto de quadro Kanban usando MongoDB</description>
+	<url>https://github.com/AlanPrzyvara/KBoard.git</url>
 	<licenses>
 		<license/>
 	</licenses>
 	<developers>
-		<developer/>
+		<developer>
+			<name>Alan Przyvara</name>
+			<url>https://github.com/AlanPrzyvara</url>
+		</developer>
 	</developers>
 	<scm>
-		<connection/>
-		<developerConnection/>
-		<tag/>
-		<url/>
+		<connection>scm:git:https://github.com/AlanPrzyvara/KBoard.git</connection>
+		<developerConnection>scm:git:https://github.com/AlanPrzyvara/KBoard.git</developerConnection>
+		<url>https://github.com/AlanPrzyvara/KBoard.git</url>
 	</scm>
 	<properties>
 		<java.version>21</java.version>
