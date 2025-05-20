@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import org.springframework.security.config.http.SessionCreationPolicy
 
 @Configuration
 @EnableWebSecurity
@@ -25,6 +26,9 @@ class SecurityConfig {
                     config
                 }
             }
+            .sessionManagement { session ->
+                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            }
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers(AntPathRequestMatcher("/**")).permitAll()
@@ -32,6 +36,8 @@ class SecurityConfig {
             .headers { headers ->
                 headers.frameOptions { it.disable() }
             }
+            .httpBasic { it.disable() }
+            .formLogin { it.disable() }
 
         return http.build()
     }
