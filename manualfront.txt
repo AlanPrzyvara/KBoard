@@ -1,0 +1,227 @@
+# Manual de Implementação do Frontend - Quadro Kanban
+# =============================================
+
+## Visão Geral
+Este documento descreve a implementação do frontend para o quadro Kanban, desenvolvido em Next.js com TypeScript. O design é inspirado no GitHub Projects, oferecendo uma interface moderna e intuitiva para gerenciamento de tarefas.
+
+## Stack Tecnológica
+- Next.js 14+
+- TypeScript
+- React Query (TanStack Query)
+- React Beautiful DnD
+- TailwindCSS
+- Axios
+- Zod (validação)
+- HeadlessUI
+- React Hot Toast
+
+## Design e Layout
+-----------------
+1. Layout Principal:
+   - Header com título do projeto
+   - Área principal com scroll horizontal para colunas
+   - Colunas organizadas em cards verticais
+   - Tarefas como cards arrastáveis
+
+2. Esquema de Cores:
+   - Fundo: #f6f8fa
+   - Colunas: #ffffff
+   - Cards: #ffffff com sombra suave
+   - Bordas: #d0d7de
+
+3. Espaçamento:
+   - 16px entre colunas
+   - 8px entre cards
+   - Padding interno: 16px
+
+## Endpoints da API
+------------------
+
+### Colunas
+1. Listar Colunas
+   - Método: GET
+   - Endpoint: /api/columns
+   - Body: Não necessário
+   - Retorno: Array de Column
+
+2. Criar Coluna
+   - Método: POST
+   - Endpoint: /api/columns
+   - Body: { name: string, order: number }
+   - Retorno: Column
+
+3. Atualizar Coluna
+   - Método: PUT
+   - Endpoint: /api/columns/{id}
+   - Body: { name: string, order: number }
+   - Retorno: Column
+
+4. Deletar Coluna
+   - Método: DELETE
+   - Endpoint: /api/columns/{id}
+   - Body: Não necessário
+   - Retorno: 204 No Content
+
+### Tarefas
+1. Listar Todas as Tarefas
+   - Método: GET
+   - Endpoint: /api/tasks
+   - Body: Não necessário
+   - Retorno: Array de Task
+
+2. Listar Tarefas por Coluna
+   - Método: GET
+   - Endpoint: /api/tasks/column/{columnId}
+   - Body: Não necessário
+   - Retorno: Array de Task
+
+3. Criar Tarefa
+   - Método: POST
+   - Endpoint: /api/tasks
+   - Body: { title: string, description: string, columnId: string }
+   - Retorno: Task
+
+4. Atualizar Tarefa
+   - Método: PUT
+   - Endpoint: /api/tasks/{id}
+   - Body: { title: string, description: string, columnId: string }
+   - Retorno: Task
+
+5. Mover Tarefa
+   - Método: PUT
+   - Endpoint: /api/tasks/{id}/move/{columnId}
+   - Body: Não necessário
+   - Retorno: Task
+
+6. Deletar Tarefa
+   - Método: DELETE
+   - Endpoint: /api/tasks/{id}
+   - Body: Não necessário
+   - Retorno: 204 No Content
+
+## Tipos TypeScript
+------------------
+```typescript
+interface Column {
+  id: string;
+  name: string;
+  order: number;
+}
+
+interface Task {
+  id: string;
+  title: string;
+  description: string;
+  columnId: string;
+}
+
+interface CreateColumnDTO {
+  name: string;
+  order: number;
+}
+
+interface CreateTaskDTO {
+  title: string;
+  description: string;
+  columnId: string;
+}
+
+interface UpdateTaskDTO {
+  title: string;
+  description: string;
+  columnId: string;
+}
+```
+
+## Componentes Principais
+------------------------
+
+1. KanbanBoard
+   - Componente principal que gerencia o layout
+   - Implementa DragDropContext
+   - Gerencia o estado global do quadro
+
+2. Column
+   - Representa uma coluna do Kanban
+   - Implementa Droppable
+   - Gerencia a lista de tarefas da coluna
+
+3. TaskCard
+   - Representa uma tarefa individual
+   - Implementa Draggable
+   - Exibe título e descrição da tarefa
+
+4. TaskModal
+   - Modal para criar/editar tarefas
+   - Formulário com validação
+   - Feedback visual de sucesso/erro
+
+## Gerenciamento de Estado
+-------------------------
+Utilizar React Query para:
+- Cache de dados
+- Gerenciamento de estado do servidor
+- Invalidação automática
+- Loading states
+- Error handling
+
+## Funcionalidades de Drag and Drop
+----------------------------------
+1. Mover tarefas entre colunas
+2. Reordenar tarefas dentro da mesma coluna
+3. Feedback visual durante o drag
+4. Atualização otimista da UI
+
+## Considerações de Performance
+------------------------------
+1. Implementar virtualização para listas longas
+2. Usar React.memo para componentes estáticos
+3. Implementar debounce nas operações
+4. Utilizar cache eficientemente
+5. Implementar lazy loading de componentes
+
+## Tratamento de Erros
+----------------------
+1. Feedback visual para erros de API
+2. Retry automático para falhas de rede
+3. Fallback UI para estados de erro
+4. Logging de erros para debugging
+
+## Testes
+---------
+1. Testes unitários para componentes
+2. Testes de integração para fluxos principais
+3. Testes de drag and drop
+4. Testes de formulários
+
+## Deploy
+--------
+1. Configurar variáveis de ambiente
+2. Otimizar build para produção
+3. Implementar CI/CD
+4. Configurar monitoramento
+
+## Boas Práticas
+---------------
+1. Seguir princípios SOLID
+2. Manter componentes pequenos e focados
+3. Implementar error boundaries
+4. Usar TypeScript strict mode
+5. Documentar componentes e funções
+6. Seguir padrões de acessibilidade
+
+## Recursos Adicionais
+---------------------
+1. Temas claro/escuro
+2. Responsividade
+3. Animações suaves
+4. Atalhos de teclado
+5. Exportação/importação de dados
+
+## Observações Finais
+--------------------
+- Manter a consistência visual
+- Priorizar a experiência do usuário
+- Implementar feedback visual para todas as ações
+- Garantir acessibilidade
+- Otimizar para performance 
