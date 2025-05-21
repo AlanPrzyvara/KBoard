@@ -13,7 +13,7 @@ class CorsConfig : WebMvcConfigurer {
 
     override fun addCorsMappings(registry: CorsRegistry) {
         registry.addMapping("/**")
-            .allowedOriginPatterns("*")
+            .allowedOrigins("https://duration-international-excluding-genetics.trycloudflare.com", "https://simple-board-eta.vercel.app")
             .allowedMethods("*")
             .allowedHeaders("*")
             .allowCredentials(true)
@@ -24,14 +24,15 @@ class CorsConfig : WebMvcConfigurer {
     fun corsFilter(): CorsFilter {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
-        
+
         config.allowCredentials = true
-        config.addAllowedOriginPattern("*")
+        config.addAllowedOrigin("https://duration-international-excluding-genetics.trycloudflare.com")
+        config.addAllowedOrigin("https://simple-board-eta.vercel.app")
         config.addAllowedHeader("*")
         config.addAllowedMethod("*")
         config.maxAge = 3600L
-        
+
         source.registerCorsConfiguration("/**", config)
         return CorsFilter(source)
     }
-} 
+}
